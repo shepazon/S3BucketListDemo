@@ -1,0 +1,53 @@
+//
+//  S3BucketList.swift
+//  
+//
+//  Created by Shepherd, Eric on 9/9/21.
+//
+
+import Foundation
+import AWSS3
+
+/// A class containing all the code that interacts with the AWS SDK for Swift.
+class S3BucketList {
+    var s3: S3Client
+    var configuration: S3Client.S3ClientConfiguration?
+    
+    /// Initialize and return a new ``S3BucketList`` object, which is used to drive the AWS calls
+    /// used for the example.
+    ///
+    /// - Parameters:
+    ///     - config: An `S3ClientConfiguration` configuring the S3 client; optional.
+    ///     
+    /// - Returns: A new ``S3BucketList`` object, ready to run the demo code.
+    init(config: S3Client.S3ClientConfiguration? = nil) throws {
+        self.configuration = config
+        if (configuration == nil) {
+            self.s3 = try S3Client()
+        } else {
+            self.s3 = S3Client(config: self.configuration!)
+        }
+    }
+    
+    /// Return an array listing all the buckets the user has access to given the current configuration.
+    ///
+    /// - Returns: An array of strings, each giving the name of one bucket
+    func buckets() throws -> [String] {
+        var bucketList: [String] = []
+        var listBucketsInput: ListBucketsInput
+        
+        listBucketsInput = ListBucketsInput()
+        s3.listBuckets(input: listBucketsInput) { (result) in
+            switch(result) {
+            case .success(let output):                
+                for bucket in output.buckets! {
+                    bucketList.append(bucket.name ?? "<<unknown name>>")
+                }
+                break
+            case .failure(let error):
+                print("ERROR: ", dump(error, name: "Error fetching bucket list"))
+            }
+        }
+        return bucketList
+    }
+}
