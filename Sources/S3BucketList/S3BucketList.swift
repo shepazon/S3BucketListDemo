@@ -11,10 +11,10 @@ import AWSS3
 /// A class containing all the code that interacts with the AWS SDK for Swift.
 class S3BucketList {
     let s3: S3Client
-    let configuration: S3Client.S3ClientConfiguration?
+    //let configuration: S3Client.S3ClientConfiguration?
     
     init() throws {
-        self.configuration = nil
+        //self.configuration = nil
         self.s3 = try S3Client()
     }
     
@@ -25,8 +25,8 @@ class S3BucketList {
     ///     - config: An `S3ClientConfiguration` configuring the S3 client; optional.
     ///     
     /// - Returns: A new ``S3BucketList`` object, ready to run the demo code.
-    init(config: S3Client.S3ClientConfiguration) throws {
-        self.configuration = config
+    init(config: S3Client.S3ClientConfiguration) {
+        //self.configuration = config
         self.s3 = S3Client(config: config)
     }
     
