@@ -4,8 +4,6 @@ import AWSS3
 import AWSClientRuntime
 import ClientRuntime
 
-let bucketListDemo: S3BucketList
-
 // Enable SDK debugging output
 
 SDKLoggingSystem.initialize(logLevel: .info)
@@ -13,16 +11,8 @@ SDKLoggingSystem.initialize(logLevel: .info)
 // Instantiate the main identity functions object
 
 do {
-    let config = try S3Client.S3ClientConfiguration(region: "us-east-2")
-    bucketListDemo = try S3BucketList(/*config: config*/)
-} catch {
-    dump(error, name: "Error creating bucket list test object")
-    exit(1)
-}
-
-// Get the bucket list
-
-do {
+    let config = try S3Client.S3ClientConfiguration(region: "us-east-1")
+    let bucketListDemo = try S3BucketList(/*config: config*/)
     let bucketList = try bucketListDemo.buckets()
     let numBuckets = bucketList.count
     
@@ -40,6 +30,8 @@ do {
 } catch {
     dump(error, name: "Error fetching bucket list")
 }
+
+print("Exiting.")
 
 /**
  Print a pretty heading with optional underscore.
