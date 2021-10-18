@@ -6,11 +6,15 @@ import ClientRuntime
 
 let bucketListDemo: S3BucketList
 
+// Enable SDK debugging output
+
+SDKLoggingSystem.initialize(logLevel: .info)
+
 // Instantiate the main identity functions object
 
 do {
-    let config = try S3Client.S3ClientConfiguration(region: "us-east-1")
-    bucketListDemo = try S3BucketList(config: config)
+    let config = try S3Client.S3ClientConfiguration(region: "us-east-2")
+    bucketListDemo = try S3BucketList(/*config: config*/)
 } catch {
     dump(error, name: "Error creating bucket list test object")
     exit(1)
